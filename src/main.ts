@@ -17,7 +17,7 @@ async function bootstrap() {
 
 
   await app.listen(envs.port ?? 3000);
-  console.log(`App running on port`, envs.port)
+  console.log(`App running on port`, envs.port )
 
 }
 bootstrap();
