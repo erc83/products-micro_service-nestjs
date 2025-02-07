@@ -15,7 +15,15 @@ export class ProductsService extends PrismaClient implements OnModuleInit {
   }
 
   create(createProductDto: CreateProductDto) {
-    return 'This action adds a new product';
+    
+    return this.product.create({                                   // product del prisma client model Product
+      data: createProductDto
+      //data: {
+      //  name: "telefono",
+      //  price: 100
+      //}
+
+    })
   }
 
   findAll() {
