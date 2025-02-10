@@ -2,11 +2,18 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { envs } from './config';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-
-
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+    AppModule,
+    {
+      transport: Transport.TCP,
+      options: {
+        port: envs.port
+      }
+    }
+  );
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -15,9 +22,13 @@ async function bootstrap() {
     })
   )
 
+  //await app.listen(envs.port ?? 3000);
+  await app.listen();         //definido en el microservice
+  
+  // await app.startAllMicroservices()          -> hibrid option of microservices
 
-  await app.listen(envs.port ?? 3000);
-  console.log(`App running on port`, envs.port )
+  console.log(`Products Microservice running on port`, envs.port )
+
 
 }
 bootstrap();
